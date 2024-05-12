@@ -3306,4 +3306,14 @@ select_all_from_testproducts(){
 	psql -U postgres -d test_db -c "SELECT * FROM testproducts;"
 }
 
-
+case "$1" in
+    setup)
+        setup_database
+        ;;
+    cleanup)
+        cleanup_database
+        ;;
+    *)
+        echo "Usage: $0 {setup|cleanup}"
+        ;;
+esac

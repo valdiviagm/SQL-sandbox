@@ -1,5 +1,5 @@
 Describe 'Database setup and query execution'
-  Include ./db_setup.sh
+  Include ./db_config.sh
 
   Before 'setup_database'
 
