@@ -1,5 +1,5 @@
 setup_database(){
-	psql -U postgres -d test_db -c "DROP TABLE IF EXISTS categories;"
+	psql -U postgres -d test_db -c "DROP TABLE IF EXISTS categories;" 2>/dev/null
 	psql -U postgres -d test_db \
 <<SQL
 		CREATE TABLE categories (
@@ -22,7 +22,7 @@ SQL
 	    ('Seafood', 'Seaweed and fish');
 SQL
 	
-	psql -U postgres -d test_db -c "DROP TABLE IF EXISTS customers;"
+	psql -U postgres -d test_db -c "DROP TABLE IF EXISTS customers;" 2>/dev/null
 	psql -U postgres -d test_db \
 <<SQL
 	CREATE TABLE customers (
@@ -134,7 +134,7 @@ SQL
 SQL
 
 
-	psql -U postgres -d test_db -c "DROP TABLE IF EXISTS products;"
+	psql -U postgres -d test_db -c "DROP TABLE IF EXISTS products;" 2>/dev/null
 	psql -U postgres -d test_db <<SQL
 	CREATE TABLE products (
 	  product_id SERIAL NOT NULL PRIMARY KEY,
@@ -228,7 +228,7 @@ VALUES
 SQL
 
 
-	psql -U postgres -d test_db -c "DROP TABLE IF EXISTS orders;"
+	psql -U postgres -d test_db -c "DROP TABLE IF EXISTS orders;" 2>/dev/null
 	psql -U postgres -d test_db <<SQL
 	CREATE TABLE orders (
 	  order_id SERIAL NOT NULL PRIMARY KEY,
@@ -1073,7 +1073,7 @@ SQL
 SQL
 
 
-	psql -U postgres -d test_db -c "DROP TABLE IF EXISTS order_details;"
+	psql -U postgres -d test_db -c "DROP TABLE IF EXISTS order_details;" 2>/dev/null
 	psql -U postgres -d test_db <<SQL
 	CREATE TABLE order_details (
 	  order_detail_id SERIAL NOT NULL PRIMARY KEY,
@@ -3243,7 +3243,7 @@ VALUES
   (11077, 77, 2);
 SQL
 
-	psql -U postgres -d test_db -c "DROP TABLE IF EXISTS testproducts;"
+	psql -U postgres -d test_db -c "DROP TABLE IF EXISTS testproducts;" 2>/dev/null
 	psql -U postgres -d test_db <<SQL
 	CREATE TABLE testproducts (
 	  testproduct_id SERIAL NOT NULL PRIMARY KEY,
