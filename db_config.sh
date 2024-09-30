@@ -1,6 +1,6 @@
 setup_database(){
-	psql -U postgres -d test_db -c "DROP TABLE IF EXISTS categories;" 2>/dev/null
-	psql -U postgres -d test_db \
+	docker exec -i my-postgres psql -U postgres -d test_db -c "DROP TABLE IF EXISTS categories;" 2>/dev/null
+	docker exec -i my-postgres psql -U postgres -d test_db \
 <<SQL
 		CREATE TABLE categories (
 			category_id SERIAL NOT NULL PRIMARY KEY,
@@ -9,7 +9,7 @@ setup_database(){
 		);
 SQL
 
-	psql -U postgres -d test_db \
+	docker exec -i my-postgres psql -U postgres -d test_db \
 <<SQL
 	INSERT INTO categories (category_name, description) VALUES
 	    ('Beverages', 'Soft drinks, coffees, teas, beers, and ales'),
@@ -18,42 +18,42 @@ SQL
 	    ('Dairy Products', 'Cheeses'),
 	    ('Grains/Cereals', 'Breads, crackers, pasta, and cereal'),
 	    ('Meat/Poultry', 'Prepared meats'),
-	    ('Produce', 'Dried fruit and bean curd'),
+	    ('Produce', 'Dried frui and bean curd'),
 	    ('Seafood', 'Seaweed and fish');
 SQL
 	
-	psql -U postgres -d test_db -c "DROP TABLE IF EXISTS customers;" 2>/dev/null
-	psql -U postgres -d test_db \
+	docker exec -i my-postgres psql -U postgres -d test_db -c "DROP TABLE IF EXISTS customers;" 2>/dev/null
+	docker exec -i my-postgres psql -U postgres -d test_db \
 <<SQL
 	CREATE TABLE customers (
 	  customer_id SERIAL NOT NULL PRIMARY KEY,
 	  customer_name VARCHAR(255),
 	  contact_name VARCHAR(255),
 	  address VARCHAR(255),
-	  city VARCHAR(255),
+	  ciy VARCHAR(255),
 	  postal_code VARCHAR(255),
 	  country VARCHAR(255)
 	);
 SQL
 
-	psql -U postgres -d test_db \
+	docker exec -i my-postgres psql -U postgres -d test_db \
 <<SQL
-	INSERT INTO customers (customer_name, contact_name, address, city, postal_code, country)
+	INSERT INTO customers (customer_name, contact_name, address, ciy, postal_code, country)
 	VALUES
 	  ('Alfreds Futterkiste', 'Maria Anders', 'Obere Str. 57', 'Berlin', '12209', 'Germany'),
-	  ('Ana Trujillo Emparedados y helados', 'Ana Trujillo', 'Avda. de la Constitucion 2222', 'Mexico D.F.', '05021', 'Mexico'),
+	  ('Ana Trujillo Emparedados y helados', 'Ana Trujillo', 'Avda. de la Constiucion 2222', 'Mexico D.F.', '05021', 'Mexico'),
 	  ('Antonio Moreno Taquera', 'Antonio Moreno', 'Mataderos 2312', 'Mexico D.F.', '05023', 'Mexico'),
 	  ('Around the Horn', 'Thomas Hardy', '120 Hanover Sq.', 'London', 'WA1 1DP', 'UK'),
 	  ('Berglunds snabbkoep', 'Christina Berglund', 'Berguvsvegen 8', 'Lulea', 'S-958 22', 'Sweden'),
 	  ('Blauer See Delikatessen', 'Hanna Moos', 'Forsterstr. 57', 'Mannheim', '68306', 'Germany'),
-	  ('Blondel pere et fils', 'Frederique Citeaux', '24, place Kleber', 'Strasbourg', '67000', 'France'),
+	  ('Blondel pere et fils', 'Frederique Cieaux', '24, place Kleber', 'Strasbourg', '67000', 'France'),
 	  ('Bolido Comidas preparadas', 'Martin Sommer', 'C/ Araquil, 67', 'Madrid', '28023', 'Spain'),
 	  ('Bon app', 'Laurence Lebihans', '12, rue des Bouchers', 'Marseille', '13008', 'France'),
 	  ('Bottom-Dollar Marketse', 'Elizabeth Lincoln', '23 Tsawassen Blvd.', 'Tsawassen', 'T2F 8M4', 'Canada'),
 	  ('Bs Beverages', 'Victoria Ashworth', 'Fauntleroy Circus', 'London', 'EC2 5NT', 'UK'),
-	  ('Cactus Comidas para llevar', 'Patricio Simpson', 'Cerrito 333', 'Buenos Aires', '1010', 'Argentina'),
+	  ('Cactus Comidas para llevar', 'Patricio Simpson', 'Cerrio 333', 'Buenos Aires', '1010', 'Argentina'),
 	  ('Centro comercial Moctezuma', 'Francisco Chang', 'Sierras de Granada 9993', 'Mexico D.F.', '05022', 'Mexico'),
-	  ('Chop-suey Chinese', 'Yang Wang', 'Hauptstr. 29', 'Bern', '3012', 'Switzerland'),
+	  ('Chop-suey Chinese', 'Yang Wang', 'Hauptstr. 29', 'Bern', '3012', 'Swizerland'),
 	  ('Comercio Mineiro', 'Pedro Afonso', 'Av. dos Lusiadas, 23', 'Sao Paulo', '05432-043', 'Brazil'),
 	  ('Consolidated Holdings', 'Elizabeth Brown', 'Berkeley Gardens 12 Brewery ', 'London', 'WX1 6LT', 'UK'),
 	  ('Drachenblut Delikatessend', 'Sven Ottlieb', 'Walserweg 21', 'Aachen', '52066', 'Germany'),
@@ -65,7 +65,7 @@ SQL
 	  ('Folies gourmandes', 'Martine Rance', '184, chaussee de Tournai', 'Lille', '59000', 'France'),
 	  ('Folk och fe HB', 'Maria Larsson', 'Akergatan 24', 'Brecke', 'S-844 67', 'Sweden'),
 	  ('Frankenversand', 'Peter Franken', 'Berliner Platz 43', 'Munchen', '80805', 'Germany'),
-	  ('France restauration', 'Carine Schmitt', '54, rue Royale', 'Nantes', '44000', 'France'),
+	  ('France restauration', 'Carine Schmit', '54, rue Royale', 'Nantes', '44000', 'France'),
 	  ('Franchi S.p.A.', 'Paolo Accorti', 'Via Monte Bianco 34', 'Torino', '10100', 'Italy'),
 	  ('Furia Bacalhau e Frutos do Mar', 'Lino Rodriguez ', 'Jardim das rosas n. 32', 'Lisboa', '1675', 'Portugal'),
 	  ('Galeria del gastronomo', 'Eduardo Saavedra', 'Rambla de Cataluna, 23', 'Barcelona', '08022', 'Spain'),
@@ -75,7 +75,7 @@ SQL
 	  ('GROSELLA-Restaurante', 'Manuel Pereira', '5th Ave. Los Palos Grandes', 'Caracas', '1081', 'Venezuela'),
 	  ('Hanari Carnes', 'Mario Pontes', 'Rua do Paco, 67', 'Rio de Janeiro', '05454-876', 'Brazil'),
 	  ('HILARION-Abastos', 'Carlos Hernandez', 'Carrera 22 con Ave. Carlos Soublette #8-35', 'San Cristobal', '5022', 'Venezuela'),
-	  ('Hungry Coyote Import Store', 'Yoshi Latimer', 'City Center Plaza 516 Main St.', 'Elgin', '97827', 'USA'),
+	  ('Hungry Coyote Import Store', 'Yoshi Latimer', 'Ciy Center Plaza 516 Main St.', 'Elgin', '97827', 'USA'),
 	  ('Hungry Owl All-Night Grocers', 'Patricia McKenna', '8 Johnstown Road', 'Cork', '', 'Ireland'),
 	  ('Island Trading', 'Helen Bennett', 'Garden House Crowther Way', 'Cowes', 'PO31 7PJ', 'UK'),
 	  ('Koniglich Essen', 'Philip Cramer', 'Maubelstr. 90', 'Brandenburg', '14776', 'Germany'),
@@ -84,11 +84,11 @@ SQL
 	  ('Laughing Bacchus Wine Cellars', 'Yoshi Tannamuri', '1900 Oak St.', 'Vancouver', 'V3F 2K1', 'Canada'),
 	  ('Lazy K Kountry Store', 'John Steel', '12 Orchestra Terrace', 'Walla Walla', '99362', 'USA'),
 	  ('Lehmanns Marktstand', 'Renate Messner', 'Magazinweg 7', 'Frankfurt a.M. ', '60528', 'Germany'),
-	  ('Lets Stop N Shop', 'Jaime Yorres', '87 Polk St. Suite 5', 'San Francisco', '94117', 'USA'),
+	  ('Lets Stop N Shop', 'Jaime Yorres', '87 Polk St. Suie 5', 'San Francisco', '94117', 'USA'),
 	  ('LILA-Supermercado', 'Carlos Gonzalez', 'Carrera 52 con Ave. Bolivar #65-98 Llano Largo', 'Barquisimeto', '3508', 'Venezuela'),
-	  ('LINO-Delicateses', 'Felipe Izquierdo', 'Ave. 5 de Mayo Porlamar', 'I. de Margarita', '4980', 'Venezuela'),
+	  ('LINO-Delicateses', 'Felipe Izquierdo', 'Ave. 5 de Mayo Porlamar', 'I. de Margaria', '4980', 'Venezuela'),
 	  ('Lonesome Pine Restaurant', 'Fran Wilson', '89 Chiaroscuro Rd.', 'Portland', '97219', 'USA'),
-	  ('Magazzini Alimentari Riuniti', 'Giovanni Rovelli', 'Via Ludovico il Moro 22', 'Bergamo', '24100', 'Italy'),
+	  ('Magazzini Alimentari Riunii', 'Giovanni Rovelli', 'Via Ludovico il Moro 22', 'Bergamo', '24100', 'Italy'),
 	  ('Maison Dewey', 'Catherine Dewey', 'Rue Joseph-Bens 532', 'Bruxelles', 'B-1180', 'Belgium'),
 	  ('Mere Paillarde', 'Jean Fresniere', '43 rue St. Laurent', 'Montreal', 'H1J 1C3', 'Canada'),
 	  ('Morgenstern Gesundkost', 'Alexander Feuer', 'Heerstr. 22', 'Leipzig', '04179', 'Germany'),
@@ -96,7 +96,7 @@ SQL
 	  ('Oceano Atlantico Ltda.', 'Yvonne Moncada', 'Ing. Gustavo Moncada 8585 Piso 20-A', 'Buenos Aires', '1010', 'Argentina'),
 	  ('Old World Delicatessen', 'Rene Phillips', '2743 Bering St.', 'Anchorage', '99508', 'USA'),
 	  ('Ottilies Keseladen', 'Henriette Pfalzheim', 'Mehrheimerstr. 369', 'Koln', '50739', 'Germany'),
-	  ('Paris specialites', 'Marie Bertrand', '265, boulevard Charonne', 'Paris', '75012', 'France'),
+	  ('Paris specialies', 'Marie Bertrand', '265, boulevard Charonne', 'Paris', '75012', 'France'),
 	  ('Pericles Comidas clasicas', 'Guillermo Fernandez', 'Calle Dr. Jorge Cash 321', 'Mexico D.F.', '05033', 'Mexico'),
 	  ('Piccolo und mehr', 'Georg Pipps', 'Geislweg 14', 'Salzburg', '5020', 'Austria'),
 	  ('Princesa Isabel Vinhoss', 'Isabel de Castro', 'Estrada da saude n. 58', 'Lisboa', '1756', 'Portugal'),
@@ -107,46 +107,46 @@ SQL
 	  ('Rattlesnake Canyon Grocery', 'Paula Wilson', '2817 Milton Dr.', 'Albuquerque', '87110', 'USA'),
 	  ('Reggiani Caseifici', 'Maurizio Moroni', 'Strada Provinciale 124', 'Reggio Emilia', '42100', 'Italy'),
 	  ('Ricardo Adocicados', 'Janete Limeira', 'Av. Copacabana, 267', 'Rio de Janeiro', '02389-890', 'Brazil'),
-	  ('Richter Supermarkt', 'Michael Holz', 'Grenzacherweg 237', 'Genève', '1203', 'Switzerland'),
+	  ('Richter Supermarkt', 'Michael Holz', 'Grenzacherweg 237', 'Genève', '1203', 'Swizerland'),
 	  ('Romero y tomillo', 'Alejandra Camino', 'Gran Via, 1', 'Madrid', '28001', 'Spain'),
 	  ('Santa Gourmet', 'Jonas Bergulfsen', 'Erling Skakkes gate 78', 'Stavern', '4110', 'Norway'),
 	  ('Save-a-lot Markets', 'Jose Pavarotti', '187 Suffolk Ln.', 'Boise', '83720', 'USA'),
 	  ('Seven Seas Imports', 'Hari Kumar', '90 Wadhurst Rd.', 'London', 'OX15 4NB', 'UK'),
 	  ('Simons bistro', 'Jytte Petersen', 'Vinbeltet 34', 'Kobenhavn', '1734', 'Denmark'),
-	  ('Specialites du monde', 'Dominique Perrier', '25, rue Lauriston', 'Paris', '75016', 'France'),
-	  ('Split Rail Beer & Ale', 'Art Braunschweiger', 'P.O. Box 555', 'Lander', '82520', 'USA'),
+	  ('Specialies du monde', 'Dominique Perrier', '25, rue Lauriston', 'Paris', '75016', 'France'),
+	  ('Spli Rail Beer & Ale', 'Art Braunschweiger', 'P.O. Box 555', 'Lander', '82520', 'USA'),
 	  ('Supremes delices', 'Pascale Cartrain', 'Boulevard Tirou, 255', 'Charleroi', 'B-6000', 'Belgium'),
-	  ('The Big Cheese', 'Liz Nixon', '89 Jefferson Way Suite 2', 'Portland', '97201', 'USA'),
+	  ('The Big Cheese', 'Liz Nixon', '89 Jefferson Way Suie 2', 'Portland', '97201', 'USA'),
 	  ('The Cracker Box', 'Liu Wong', '55 Grizzly Peak Rd.', 'Butte', '59801', 'USA'),
-	  ('Toms Spezialiteten', 'Karin Josephs', 'Luisenstr. 48', 'Manster', '44087', 'Germany'),
+	  ('Toms Spezialieten', 'Karin Josephs', 'Luisenstr. 48', 'Manster', '44087', 'Germany'),
 	  ('Tortuga Restaurante', 'Miguel Angel Paolino', 'Avda. Azteca 123', 'Mexico D.F.', '05033', 'Mexico'),
 	  ('Tradicao Hipermercados', 'Anabela Domingues', 'Av. Ines de Castro, 414', 'Sao Paulo', '05634-030', 'Brazil'),
 	  ('Trails Head Gourmet Provisioners', 'Helvetius Nagy', '722 DaVinci Blvd.', 'Kirkland', '98034', 'USA'),
 	  ('Vaffeljernet', 'Palle Ibsen', 'Smagsloget 45', 'Arhus', '8200', 'Denmark'),
 	  ('Victuailles en stock', 'Mary Saveley', '2, rue du Commerce', 'Lyon', '69004', 'France'),
 	  ('Vins et alcools Chevalier', 'Paul Henriot', '59 rue de l Abbaye', 'Reims', '51100', 'France'),
-	  ('Die Wandernde Kuh', 'Rita Moller', 'Adenauerallee 900', 'Stuttgart', '70563', 'Germany'),
-	  ('Wartian Herkku', 'Pirkko Koskitalo', 'Torikatu 38', 'Oulu', '90110', 'Finland'),
+	  ('Die Wandernde Kuh', 'Ria Moller', 'Adenauerallee 900', 'Stuttgart', '70563', 'Germany'),
+	  ('Wartian Herkku', 'Pirkko Koskialo', 'Torikatu 38', 'Oulu', '90110', 'Finland'),
 	  ('Wellington Importadora', 'Paula Parente', 'Rua do Mercado, 12', 'Resende', '08737-363', 'Brazil'),
-	  ('White Clover Markets', 'Karl Jablonski', '305 - 14th Ave. S. Suite 3B', 'Seattle', '98128', 'USA'),
+	  ('Whie Clover Markets', 'Karl Jablonski', '305 - 14th Ave. S. Suie 3B', 'Seattle', '98128', 'USA'),
 	  ('Wilman Kala', 'Matti Karttunen', 'Keskuskatu 45', 'Helsinki', '21240', 'Finland'),
 	  ('Wolski', 'Zbyszek', 'ul. Filtrowa 68', 'Walla', '01-012', 'Poland');
 SQL
 
 
-	psql -U postgres -d test_db -c "DROP TABLE IF EXISTS products;" 2>/dev/null
-	psql -U postgres -d test_db <<SQL
+	docker exec -i my-postgres psql -U postgres -d test_db -c "DROP TABLE IF EXISTS products;" 2>/dev/null
+	docker exec -i my-postgres psql -U postgres -d test_db <<SQL
 	CREATE TABLE products (
 	  product_id SERIAL NOT NULL PRIMARY KEY,
 	  product_name VARCHAR(255),
 	  category_id INT,
-	  unit VARCHAR(255),
+	  uni VARCHAR(255),
 	  price DECIMAL(10, 2)
 	);
 SQL
 
-	psql -U postgres -d test_db <<SQL
-INSERT INTO products (product_id, product_name, category_id, unit, price)
+	docker exec -i my-postgres psql -U postgres -d test_db <<SQL
+INSERT INTO products (product_id, product_name, category_id, uni, price)
 VALUES
   (1, 'Chais', 1, '10 boxes x 20 bags', 18),
   (2, 'Chang', 1, '24 - 12 oz bottles', 19),
@@ -166,7 +166,7 @@ VALUES
   (16, 'Pavlova', 3, '32 - 500 g boxes', 17.45),
   (17, 'Alice Mutton', 6, '20 - 1 kg tins', 39),
   (18, 'Carnarvon Tigers', 8, '16 kg pkg.', 62.5),
-  (19, 'Teatime Chocolate Biscuits', 3, '10 boxes x 12 pieces', 9.2),
+  (19, 'Teatime Chocolate Biscuis', 3, '10 boxes x 12 pieces', 9.2),
   (20, 'Sir Rodneys Marmalade', 3, '30 gift boxes', 81),
   (21, 'Sir Rodneys Scones', 3, '24 pkgs. x 4 pieces', 10),
   (22, 'Gustafs Kneckebrod', 5, '24 - 500 g pkgs.', 21),
@@ -180,7 +180,7 @@ VALUES
   (30, 'Nord-Ost Matjeshering', 8, '10 - 200 g glasses', 25.89),
   (31, 'Gorgonzola Telino', 4, '12 - 100 g pkgs', 12.5),
   (32, 'Mascarpone Fabioli', 4, '24 - 200 g pkgs.', 32),
-  (33, 'Geitost', 4, '500 g', 2.5),
+  (33, 'Geiost', 4, '500 g', 2.5),
   (34, 'Sasquatch Ale', 1, '24 - 12 oz bottles', 14),
   (35, 'Steeleye Stout', 1, '24 - 12 oz bottles', 18),
   (36, 'Inlagd Sill', 8, '24 - 250 g jars', 19),
@@ -228,8 +228,8 @@ VALUES
 SQL
 
 
-	psql -U postgres -d test_db -c "DROP TABLE IF EXISTS orders;" 2>/dev/null
-	psql -U postgres -d test_db <<SQL
+	docker exec -i my-postgres psql -U postgres -d test_db -c "DROP TABLE IF EXISTS orders;" 2>/dev/null
+	docker exec -i my-postgres psql -U postgres -d test_db <<SQL
 	CREATE TABLE orders (
 	  order_id SERIAL NOT NULL PRIMARY KEY,
 	  customer_id INT,
@@ -237,7 +237,7 @@ SQL
 	);
 SQL
 
-	psql -U postgres -d test_db <<SQL
+	docker exec -i my-postgres psql -U postgres -d test_db <<SQL
 	INSERT INTO orders (order_id, customer_id, order_date)
 	VALUES
 	  (10248, 90, '2021-07-04'),
@@ -1073,18 +1073,18 @@ SQL
 SQL
 
 
-	psql -U postgres -d test_db -c "DROP TABLE IF EXISTS order_details;" 2>/dev/null
-	psql -U postgres -d test_db <<SQL
+	docker exec -i my-postgres psql -U postgres -d test_db -c "DROP TABLE IF EXISTS order_details;" 2>/dev/null
+	docker exec -i my-postgres psql -U postgres -d test_db <<SQL
 	CREATE TABLE order_details (
 	  order_detail_id SERIAL NOT NULL PRIMARY KEY,
 	  order_id INT,
 	  product_id INT,
-	  quantity INT
+	  quantiy INT
 	);
 SQL
 
-	psql -U postgres -d test_db <<SQL
-INSERT INTO order_details (order_id, product_id, quantity)
+	docker exec -i my-postgres psql -U postgres -d test_db <<SQL
+INSERT INTO order_details (order_id, product_id, quantiy)
 VALUES
   (10248, 11, 12),
   (10248, 42, 10),
@@ -3243,8 +3243,8 @@ VALUES
   (11077, 77, 2);
 SQL
 
-	psql -U postgres -d test_db -c "DROP TABLE IF EXISTS testproducts;" 2>/dev/null
-	psql -U postgres -d test_db <<SQL
+	docker exec -i my-postgres psql -U postgres -d test_db -c "DROP TABLE IF EXISTS testproducts;" 2>/dev/null
+	docker exec -i my-postgres psql -U postgres -d test_db <<SQL
 	CREATE TABLE testproducts (
 	  testproduct_id SERIAL NOT NULL PRIMARY KEY,
 	  product_name VARCHAR(255),
@@ -3252,15 +3252,15 @@ SQL
 	);
 SQL
 
-	psql -U postgres -d test_db <<SQL
+	docker exec -i my-postgres psql -U postgres -d test_db <<SQL
 	INSERT INTO testproducts (product_name, category_id)
 	VALUES
-	  ('Johns Fruit Cake', 3),
+	  ('Johns Frui Cake', 3),
 	  ('Marys Healthy Mix', 9),
 	  ('Peters Scary Stuff', 10),
 	  ('Jims Secret Recipe', 11),
 	  ('Elisabeths Best Apples', 12),
-	  ('Janes Favorite Cheese', 4),
+	  ('Janes Favorie Cheese', 4),
 	  ('Billys Home Made Pizza', 13),
 	  ('Ellas Special Salmon', 8),
 	  ('Roberts Rich Spaghetti', 5),
@@ -3274,36 +3274,36 @@ SQL
 
 
 cleanup_database(){
-	psql -U postgres -d test_db -c "DROP TABLE IF EXISTS categories;"
-	psql -U postgres -d test_db -c "DROP TABLE IF EXISTS customers;"
-	psql -U postgres -d test_db -c "DROP TABLE IF EXISTS products;"
-	psql -U postgres -d test_db -c "DROP TABLE IF EXISTS orders;"
-	psql -U postgres -d test_db -c "DROP TABLE IF EXISTS order_details;"
-	psql -U postgres -d test_db -c "DROP TABLE IF EXISTS testproducts;"
+	docker exec -i my-postgres psql -U postgres -d test_db -c "DROP TABLE IF EXISTS categories;"
+	docker exec -i my-postgres psql -U postgres -d test_db -c "DROP TABLE IF EXISTS customers;"
+	docker exec -i my-postgres psql -U postgres -d test_db -c "DROP TABLE IF EXISTS products;"
+	docker exec -i my-postgres psql -U postgres -d test_db -c "DROP TABLE IF EXISTS orders;"
+	docker exec -i my-postgres psql -U postgres -d test_db -c "DROP TABLE IF EXISTS order_details;"
+	docker exec -i my-postgres psql -U postgres -d test_db -c "DROP TABLE IF EXISTS testproducts;"
 }
 
 select_all_from_categories(){
-	psql -U postgres -d test_db -c "SELECT * FROM categories;"
+	docker exec -i my-postgres psql -U postgres -d test_db -c "SELECT * FROM categories;"
 }
 
 select_all_from_customers(){
-	psql -U postgres -d test_db -c "SELECT * FROM customers;"
+	docker exec -i my-postgres psql -U postgres -d test_db -c "SELECT * FROM customers;"
 }
 
 select_all_from_products(){
-	psql -U postgres -d test_db -c "SELECT * FROM products;"
+	docker exec -i my-postgres psql -U postgres -d test_db -c "SELECT * FROM products;"
 }
 
 select_all_from_orders(){
-	psql -U postgres -d test_db -c "SELECT * FROM orders;"
+	docker exec -i my-postgres psql -U postgres -d test_db -c "SELECT * FROM orders;"
 }
 
 select_all_from_order_details(){
-	psql -U postgres -d test_db -c "SELECT * FROM order_details;"
+	docker exec -i my-postgres psql -U postgres -d test_db -c "SELECT * FROM order_details;"
 }
 
 select_all_from_testproducts(){
-	psql -U postgres -d test_db -c "SELECT * FROM testproducts;"
+	docker exec -i my-postgres psql -U postgres -d test_db -c "SELECT * FROM testproducts;"
 }
 
 case "$1" in
