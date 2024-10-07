@@ -1,127 +1,62 @@
 # Project Setup and Usage Guide
 
-This document provides an overview of how to use the `Makefile` and interact with the PostgreSQL database via JDBC in your development and testing environment.
+This guide helps you set up and run the project using Docker. All required tools, including `make`, `shellspec`, and `psql`, are installed and run inside a Docker container. You only need Docker installed on your local machine.
 
 ## Prerequisites
+
 - **Docker**: Ensure Docker is installed on your machine.
-- **Make**: The `make` command is required to run the tasks.
-- **ShellSpec**: Used for testing.
 
-### Makefile Usage
+### Installing Docker
 
-#### 1. `make setup`
-This command sets up the database and runs the setup script defined in `db_config.sh`:
+For both Windows and macOS, you need to install Docker Desktop.
 
-```bash
-make setup
-```
+- [Download Docker Desktop](https:g/www.docker.com/products/docker-desktop/) and choose the version suitable for your operating system (Windows or macOS).
+- Follow the installation instructions specific to your platform.
+- Once Docker Desktop is installed and running, you're ready to proceed.
 
-This runs:
-- Starts the PostgreSQL database in Docker.
-- Executes the `db_config.sh setup` script to configure the database.
+## Getting Started
 
-#### 2. `make test`
-This command runs the tests using ShellSpec:
+1. **Start the Sandbox Container**:
 
-```bash
-make test
-```
+   Inside the project directory, run the following command to enter the container:
+   `docker-compose run --rm sandbox`
 
-This runs:
-- Starts the PostgreSQL container.
-- Runs the `shellspec` tests.
-- Stops and tears down the PostgreSQL container after testing.
+   This command opens an interactive shell inside the Docker container, where all necessary tools are available.
 
-#### 3. `make teardown`
-This command cleans up the environment by stopping the PostgreSQL container and running the `cleanup` script in `db_config.sh`:
 
-```bash
-make teardown
-```
+- **Run Tests**:
+  Run the tests using `shellspec`:
 
-This runs:
-- Stops the PostgreSQL container.
-- Runs `db_config.sh cleanup` to clean up the database.
+  `make test`
 
-### No Password Authentication (`POSTGRES_HOST_AUTH_METHOD=trust`)
+If tests are not passed succesfully, a misconfiguration occured and reaching for help is advised.
 
-In the `docker-compose.yml` file, the environment variable `POSTGRES_HOST_AUTH_METHOD=trust` is used. This means PostgreSQL is configured to **trust** local connections and does not require a password for authentication.
+## Running commands that you can run inside the container
 
-You can connect to the PostgreSQL database without specifying a password when using `psql`, JDBC, or any other database client.
+Once you're inside the `sandbox` container, you can use the following `make` commands to manage the project:
 
-#### Example of Connecting with `psql`:
-```bash
-psql -h localhost -p 5432 -U postgres -d test_db
-```
+- **Setup the Database**:
+  Set up the database and configure the environment:
+  `make setup`
 
-### Example of JDBC Connection
+- **Accessing the Database**:
+To enter the database interactive environment and execute SQL commands, you can use the following `psql` command from inside the container:
 
-If you are working with JDBC, you can use the following connection string to interact with the PostgreSQL database running in Docker:
+`psql -h db -p 5432 -U postgres -d test_db`
 
-```java
-String jdbcUrl = "jdbc:postgresql://localhost:5432/test_db";
-String username = "postgres";
+This connects to the PostgreSQL database running inside the `db` container.
 
-try (Connection connection = DriverManager.getConnection(jdbcUrl, username, null)) {
-    // Perform database operations here
-    System.out.println("Connected to the database successfully!");
-} catch (SQLException e) {
-    e.printStackTrace();
-}
-```
+( `exit` command exits database interactive environment )
 
-- **JDBC URL**: `jdbc:postgresql://localhost:5432/test_db` connects to the PostgreSQL database running in Docker.
-- **Username**: `postgres` is the default user defined in `docker-compose.yml`.
-- **No Password**: Since `POSTGRES_HOST_AUTH_METHOD=trust` is enabled, no password is required.
+- **Teardown the Environment**:
+  Clean up the database and stop the environment:
 
-### Docker Compose Overview
+  `make teardown`
 
-Below is the `docker-compose.yml` configuration for the PostgreSQL service:
 
-```yaml
-version: '3.8'
+## Note for SQL Learners
 
-services:
-  db:
-    image: postgres:14
-    container_name: my-postgres
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_DB: test_db
-      POSTGRES_HOST_AUTH_METHOD: trust
-    ports:
-      - "5432:5432"
-    volumes:
-      - ./db_config.sh:/usr/local/bin/db_config.sh
-      - postgres_data:/var/lib/postgresql/data
-    networks:
-      - postgres-network
+If you're new to SQL, think of this environment as your playground. You don’t need to worry about breaking anything — you can always start over by running `make teardown` to clean up everything and `make setup` to reset the database. This is a safe space for you to experiment, try out queries, and learn without fear. No matter what happens, you can always start fresh, so don't hesitate to play around and explore SQL freely.
 
-volumes:
-  postgres_data:
 
-networks:
-  postgres-network:
-    driver: bridge
-```
-
-### Running the Project
-
-1. **Setup the Database**: 
-   Run the following command to start the database and set it up:
-   ```bash
-   make setup
-   ```
-
-2. **Run Tests**:
-   Run the tests using:
-   ```bash
-   make test
-   ```
-
-3. **Clean up the Environment**:
-   Use the following command to tear down the environment:
-   ```bash
-   make teardown
-   ```
 

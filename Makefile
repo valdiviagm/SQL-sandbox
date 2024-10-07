@@ -1,13 +1,10 @@
-test:
-	docker-compose up -d && shellspec && docker-compose down
+.PHONY: test setup teardown
 
-dev:
-	watchexec --exts .sh --watch db_config.sh --debounce 1000 "make test"
+test:
+	shellspec
 
 setup:
-	docker-compose up -d && ./db_config.sh setup
-	
+	./db_config.sh setup
 
 teardown:
-	 ./db_config.sh cleanup && docker-compose down
-
+	./db_config.sh cleanup

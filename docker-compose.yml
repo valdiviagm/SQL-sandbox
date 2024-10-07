@@ -16,9 +16,23 @@ services:
     networks:
       - postgres-network
 
+  sandbox:
+    image: alpine:latest
+    container_name: sandbox-container
+    volumes:
+      - .:/app
+    working_dir: /app
+    tty: true
+    networks:
+      - postgres-network
+    depends_on:
+      - db
+    command: /bin/sh -c "apk add --no-cache make bash curl git postgresql-client && echo 'y' | curl -fsSL https://git.io/shellspec | sh -s -- --yes && export PATH=\$PATH:/root/.local/bin && /bin/sh"
+
 volumes:
   postgres_data:
 
 networks:
   postgres-network:
     driver: bridge
+

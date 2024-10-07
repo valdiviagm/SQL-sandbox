@@ -1,6 +1,6 @@
 setup_database(){
-	docker exec -i my-postgres psql -U postgres -d test_db -c "DROP TABLE IF EXISTS categories;" 2>/dev/null
-	docker exec -i my-postgres psql -U postgres -d test_db \
+	psql -h db -p 5432  -U postgres -d test_db -c "DROP TABLE IF EXISTS categories;" 2>/dev/null
+	psql -h db -p 5432  -U postgres -d test_db \
 <<SQL
 		CREATE TABLE categories (
 			category_id SERIAL NOT NULL PRIMARY KEY,
@@ -9,7 +9,7 @@ setup_database(){
 		);
 SQL
 
-	docker exec -i my-postgres psql -U postgres -d test_db \
+	psql -h db -p 5432  -U postgres -d test_db \
 <<SQL
 	INSERT INTO categories (category_name, description) VALUES
 	    ('Beverages', 'Soft drinks, coffees, teas, beers, and ales'),
@@ -22,8 +22,8 @@ SQL
 	    ('Seafood', 'Seaweed and fish');
 SQL
 	
-	docker exec -i my-postgres psql -U postgres -d test_db -c "DROP TABLE IF EXISTS customers;" 2>/dev/null
-	docker exec -i my-postgres psql -U postgres -d test_db \
+	psql -h db -p 5432  -U postgres -d test_db -c "DROP TABLE IF EXISTS customers;" 2>/dev/null
+	psql -h db -p 5432  -U postgres -d test_db \
 <<SQL
 	CREATE TABLE customers (
 	  customer_id SERIAL NOT NULL PRIMARY KEY,
@@ -36,7 +36,7 @@ SQL
 	);
 SQL
 
-	docker exec -i my-postgres psql -U postgres -d test_db \
+	psql -h db -p 5432  -U postgres -d test_db \
 <<SQL
 	INSERT INTO customers (customer_name, contact_name, address, ciy, postal_code, country)
 	VALUES
@@ -134,8 +134,8 @@ SQL
 SQL
 
 
-	docker exec -i my-postgres psql -U postgres -d test_db -c "DROP TABLE IF EXISTS products;" 2>/dev/null
-	docker exec -i my-postgres psql -U postgres -d test_db <<SQL
+	psql -h db -p 5432  -U postgres -d test_db -c "DROP TABLE IF EXISTS products;" 2>/dev/null
+	psql -h db -p 5432  -U postgres -d test_db <<SQL
 	CREATE TABLE products (
 	  product_id SERIAL NOT NULL PRIMARY KEY,
 	  product_name VARCHAR(255),
@@ -145,7 +145,7 @@ SQL
 	);
 SQL
 
-	docker exec -i my-postgres psql -U postgres -d test_db <<SQL
+	psql -h db -p 5432  -U postgres -d test_db <<SQL
 INSERT INTO products (product_id, product_name, category_id, uni, price)
 VALUES
   (1, 'Chais', 1, '10 boxes x 20 bags', 18),
@@ -228,8 +228,8 @@ VALUES
 SQL
 
 
-	docker exec -i my-postgres psql -U postgres -d test_db -c "DROP TABLE IF EXISTS orders;" 2>/dev/null
-	docker exec -i my-postgres psql -U postgres -d test_db <<SQL
+	psql -h db -p 5432  -U postgres -d test_db -c "DROP TABLE IF EXISTS orders;" 2>/dev/null
+	psql -h db -p 5432  -U postgres -d test_db <<SQL
 	CREATE TABLE orders (
 	  order_id SERIAL NOT NULL PRIMARY KEY,
 	  customer_id INT,
@@ -237,7 +237,7 @@ SQL
 	);
 SQL
 
-	docker exec -i my-postgres psql -U postgres -d test_db <<SQL
+	psql -h db -p 5432  -U postgres -d test_db <<SQL
 	INSERT INTO orders (order_id, customer_id, order_date)
 	VALUES
 	  (10248, 90, '2021-07-04'),
@@ -1073,8 +1073,8 @@ SQL
 SQL
 
 
-	docker exec -i my-postgres psql -U postgres -d test_db -c "DROP TABLE IF EXISTS order_details;" 2>/dev/null
-	docker exec -i my-postgres psql -U postgres -d test_db <<SQL
+	psql -h db -p 5432  -U postgres -d test_db -c "DROP TABLE IF EXISTS order_details;" 2>/dev/null
+	psql -h db -p 5432  -U postgres -d test_db <<SQL
 	CREATE TABLE order_details (
 	  order_detail_id SERIAL NOT NULL PRIMARY KEY,
 	  order_id INT,
@@ -1083,7 +1083,7 @@ SQL
 	);
 SQL
 
-	docker exec -i my-postgres psql -U postgres -d test_db <<SQL
+	psql -h db -p 5432  -U postgres -d test_db <<SQL
 INSERT INTO order_details (order_id, product_id, quantiy)
 VALUES
   (10248, 11, 12),
@@ -3243,8 +3243,8 @@ VALUES
   (11077, 77, 2);
 SQL
 
-	docker exec -i my-postgres psql -U postgres -d test_db -c "DROP TABLE IF EXISTS testproducts;" 2>/dev/null
-	docker exec -i my-postgres psql -U postgres -d test_db <<SQL
+	psql -h db -p 5432  -U postgres -d test_db -c "DROP TABLE IF EXISTS testproducts;" 2>/dev/null
+	psql -h db -p 5432  -U postgres -d test_db <<SQL
 	CREATE TABLE testproducts (
 	  testproduct_id SERIAL NOT NULL PRIMARY KEY,
 	  product_name VARCHAR(255),
@@ -3252,7 +3252,7 @@ SQL
 	);
 SQL
 
-	docker exec -i my-postgres psql -U postgres -d test_db <<SQL
+	psql -h db -p 5432  -U postgres -d test_db <<SQL
 	INSERT INTO testproducts (product_name, category_id)
 	VALUES
 	  ('Johns Frui Cake', 3),
@@ -3274,36 +3274,36 @@ SQL
 
 
 cleanup_database(){
-	docker exec -i my-postgres psql -U postgres -d test_db -c "DROP TABLE IF EXISTS categories;"
-	docker exec -i my-postgres psql -U postgres -d test_db -c "DROP TABLE IF EXISTS customers;"
-	docker exec -i my-postgres psql -U postgres -d test_db -c "DROP TABLE IF EXISTS products;"
-	docker exec -i my-postgres psql -U postgres -d test_db -c "DROP TABLE IF EXISTS orders;"
-	docker exec -i my-postgres psql -U postgres -d test_db -c "DROP TABLE IF EXISTS order_details;"
-	docker exec -i my-postgres psql -U postgres -d test_db -c "DROP TABLE IF EXISTS testproducts;"
+	psql -h db -p 5432  -U postgres -d test_db -c "DROP TABLE IF EXISTS categories;"
+	psql -h db -p 5432  -U postgres -d test_db -c "DROP TABLE IF EXISTS customers;"
+	psql -h db -p 5432  -U postgres -d test_db -c "DROP TABLE IF EXISTS products;"
+	psql -h db -p 5432  -U postgres -d test_db -c "DROP TABLE IF EXISTS orders;"
+	psql -h db -p 5432  -U postgres -d test_db -c "DROP TABLE IF EXISTS order_details;"
+	psql -h db -p 5432  -U postgres -d test_db -c "DROP TABLE IF EXISTS testproducts;"
 }
 
 select_all_from_categories(){
-	docker exec -i my-postgres psql -U postgres -d test_db -c "SELECT * FROM categories;"
+	psql -h db -p 5432  -U postgres -d test_db -c "SELECT * FROM categories;"
 }
 
 select_all_from_customers(){
-	docker exec -i my-postgres psql -U postgres -d test_db -c "SELECT * FROM customers;"
+	psql -h db -p 5432  -U postgres -d test_db -c "SELECT * FROM customers;"
 }
 
 select_all_from_products(){
-	docker exec -i my-postgres psql -U postgres -d test_db -c "SELECT * FROM products;"
+	psql -h db -p 5432  -U postgres -d test_db -c "SELECT * FROM products;"
 }
 
 select_all_from_orders(){
-	docker exec -i my-postgres psql -U postgres -d test_db -c "SELECT * FROM orders;"
+	psql -h db -p 5432  -U postgres -d test_db -c "SELECT * FROM orders;"
 }
 
 select_all_from_order_details(){
-	docker exec -i my-postgres psql -U postgres -d test_db -c "SELECT * FROM order_details;"
+	psql -h db -p 5432  -U postgres -d test_db -c "SELECT * FROM order_details;"
 }
 
 select_all_from_testproducts(){
-	docker exec -i my-postgres psql -U postgres -d test_db -c "SELECT * FROM testproducts;"
+	psql -h db -p 5432  -U postgres -d test_db -c "SELECT * FROM testproducts;"
 }
 
 case "$1" in
