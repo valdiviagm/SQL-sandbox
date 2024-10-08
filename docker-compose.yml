@@ -11,7 +11,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./db_config.sh:/usr/local/bin/db_config.sh
+      - ./db_config.sh:/app/db_config.sh
       - postgres_data:/var/lib/postgresql/data
     networks:
       - postgres-network
@@ -27,7 +27,7 @@ services:
       - postgres-network
     depends_on:
       - db
-    command: /bin/sh -c "apk add --no-cache make bash curl git postgresql-client && echo 'y' | curl -fsSL https://git.io/shellspec | sh -s -- --yes && export PATH=\$PATH:/root/.local/bin && /bin/sh"
+    command: /bin/sh -c "apk add --no-cache make bash curl git postgresql-client && echo 'y' | curl -fsSL https://git.io/shellspec | sh -s -- --yes && chmod +x /app/db_config.sh && export PATH=\$PATH:/root/.local/bin && /bin/sh"
 
 volumes:
   postgres_data:
